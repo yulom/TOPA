@@ -1,7 +1,7 @@
 # TOPA
 official implementation of the paper TOPA: Target Oriented Prototype Adaptation for Cross-Subject Motor Imagery EEG Decoding
 
-![Abstract](https://github.com/yulom/TOPA/edit/main/abstract.png)
+![[Abstract]([https://github.com/yulom/TOPA/edit/main/abstract.png](https://github.com/yulom/TOPA/blob/main/abstract.png))](https://github.com/yulom/TOPA/blob/main/abstract.png)
 
 # Data download and preprocessing
 get BCI competition IV dataset from https://www.bbci.de/competition/iv/
