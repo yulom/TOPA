@@ -95,7 +95,8 @@ def normalize_correlation_matrix(G, epsilon=1e-8):
     G_normalized = G / norm_factors
     return G_normalized
 
-def TOPA_Loss(outputs_target, prototypes, cls_normalization=False):
+
+def TOPA_Loss(outputs_target, prototypes, cls_normalization=False,proto_detach = False,t = 2.5 ):
     """
     Compute the TOPA loss based on target outputs and prototypes.
 
@@ -107,8 +108,8 @@ def TOPA_Loss(outputs_target, prototypes, cls_normalization=False):
     Returns:
         torch.Tensor: TOPA loss value.
     """
-    t = 2.5  # Temperature scaling factor
-    class_num = 4  # Number of classes
+     # Temperature scaling factor
+    class_num = prototypes.size(0)  # Number of classes
 
     # Apply temperature scaling to target outputs
     outputs_target_temp = outputs_target / t
@@ -130,10 +131,13 @@ def TOPA_Loss(outputs_target, prototypes, cls_normalization=False):
         cov_matrix_t = cov_matrix_t * class_num / outputs_target.shape[0]
 
     # Compute the pairwise distance between prototypes
-    y_p = -torch.cdist(prototypes.detach(), prototypes.detach(), p=2)
+    if proto_detach:
+        y_p = -torch.cdist(prototypes.detach(), prototypes.detach(), p=2)
+    else:
+        y_p = -torch.cdist(prototypes, prototypes, p=2)
 
     # Apply temperature scaling to prototypes
-    outputs_p_temp = prototypes / t
+    outputs_p_temp = y_p / t
     # Compute softmax probabilities for prototypes
     p_softmax_out_temp = nn.Softmax(dim=1)(outputs_p_temp)
 
